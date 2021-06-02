@@ -1,7 +1,7 @@
-import './view/App.css';
-import Login from "./view/login/Login";
+import './App.css';
+import Login from "./login/Login";
 import {createGlobalStyle} from 'styled-components'
-import Feed from './view/feed/Feed';
+import Feed from './feed/Feed';
 
 const GlobalStyle = createGlobalStyle`
   * {
