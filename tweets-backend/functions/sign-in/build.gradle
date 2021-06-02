@@ -1,0 +1,14 @@
+plugins {
+    id "tweets.backend.java-application-conventions"
+}
+
+version "1.0.SNAPSHOT"
+
+dependencies {
+    implementation project(":shared:jwt")
+    implementation project(":shared:rest")
+    implementation project(":shared:persistence")
+
+    implementation "com.amazonaws:aws-lambda-java-core:${awsLambdaCoreVersion}"
+    implementation "at.favre.lib:bcrypt:${bcryptVersion}"
+}
