@@ -1,7 +1,14 @@
-import './App.css';
-import Login from "./login/Login";
-import {createGlobalStyle} from 'styled-components'
-import Feed from './feed/Feed';
+import { Component } from "react";
+import { connect } from "react-redux";
+import { Router, Switch } from "react-router-dom";
+
+import "./App.css";
+import { createGlobalStyle } from "styled-components";
+import history from "../core/history";
+import SignIn from "./signIn/SignIn";
+import Feed from "./feed/Feed";
+import AppRoute from "../core/routes/app_route";
+import SignedInAppRoute from "../core/routes/signed_in_app_route";
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -10,14 +17,44 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     font-family: Roboto;
   }
-`
+`;
 
-const App = () => {
-    return <>
-        <GlobalStyle/>
-        {/*<Feed/>*/}
-        <Login/>
-    </>
+class App extends Component {
+
+    render = () => {
+        const { authentication, storageLoaded } = this.props;
+
+        return (
+            <Router history={ history }>
+                <>
+                    <GlobalStyle/>
+                    <Switch>
+                        <AppRoute
+                            exact path={ "/" }
+                            component={ SignIn }
+                            authentication={ authentication }
+                            storageLoaded={ storageLoaded }/>
+
+                        <SignedInAppRoute
+                            exact path={ "/feed" }
+                            component={ Feed }
+                            authentication={ authentication }
+                            storageLoaded={ storageLoaded }
+
+                        />
+                    </Switch>
+                </>
+            </Router>
+        );
+    };
 }
 
-export default App;
+const mapStateToProps = (state) => {
+    return {
+        authentication: state.authentication,
+        storageLoaded: state.misc.storage.loaded
+    };
+};
+
+
+export default connect(mapStateToProps)(App);

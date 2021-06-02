@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 const Wrapper = styled.div`
   width: 600px;
@@ -87,7 +87,7 @@ const FeedItem = () => {
             </Wrapper>
         </>
     );
-}
+};
 
 export const FeedInput = () => {
     return (
@@ -104,6 +104,6 @@ export const FeedInput = () => {
             </Wrapper>
         </>
     );
-}
+};
 
 export default FeedItem;

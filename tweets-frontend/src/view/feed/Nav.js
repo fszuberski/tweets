@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 const Container = styled.div`
   padding: 0 30px;
@@ -7,12 +7,12 @@ const Container = styled.div`
   justify-content: space-between;
   background-color: #02333b;
   color: #fff;
-`
+`;
 
 const Group = styled.div`
   display: flex;
   align-items: center;
-`
+`;
 
 const Tab = styled.div`
   padding: 15px;
@@ -25,7 +25,7 @@ const Tab = styled.div`
     cursor: pointer;
     border-color: #d6e3e4;
   }
-`
+`;
 export const Button = styled.button`
   min-width: 130px;
   padding: 10px;
@@ -42,7 +42,7 @@ export const Button = styled.button`
   &:hover {
     border-color: #d6e3e4;
   }
-`
+`;
 
 const Nav = () => {
     return (
@@ -65,6 +65,6 @@ const Nav = () => {
             </Group>
         </Container>
     );
-}
+};
 
 export default Nav;

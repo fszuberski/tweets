@@ -1,13 +1,13 @@
-import React from 'react';
-import styled from 'styled-components';
-import FeedItem from './FeedItem';
-import { FeedInput } from './FeedItem';
-import Nav from './Nav';
+import React from "react";
+import styled from "styled-components";
+import FeedItem from "./FeedItem";
+import { FeedInput } from "./FeedItem";
+import Nav from "./Nav";
 
 const Container = styled.div`
   min-height: 100vh;
   background: #02333b;
-`
+`;
 
 const List = styled.div`
   display: flex;
@@ -15,7 +15,7 @@ const List = styled.div`
   justify-content: center;
   align-items: center;
   padding: 80px 0;
-`
+`;
 
 const Feed = () => {
     return (
@@ -30,6 +30,6 @@ const Feed = () => {
             </List>
         </Container>
     );
-}
+};
 
 export default Feed;
