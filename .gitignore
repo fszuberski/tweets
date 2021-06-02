@@ -500,3 +500,7 @@ build/
 nbbuild/
 nbdist/
 .nb-gradle/
+
+
+### JavaScript / NPM
+node_modules
