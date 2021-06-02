@@ -1,8 +1,10 @@
 package com.fszuberski.tweets.session.port.in;
 
+import com.fszuberski.tweets.session.core.domain.Session;
+
 public interface CreateSession {
 
-    String createSession(String username, String password);
+    Session createSession(String username, String password);
 
     class CreateSessionException extends RuntimeException {
 

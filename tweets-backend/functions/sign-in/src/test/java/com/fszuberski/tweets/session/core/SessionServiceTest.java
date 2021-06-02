@@ -2,6 +2,7 @@ package com.fszuberski.tweets.session.core;
 
 import com.fszuberski.tweets.jwt.JWTService;
 import com.fszuberski.tweets.persistence.port.out.GetUserProfilePort;
+import com.fszuberski.tweets.session.core.domain.Session;
 import com.fszuberski.tweets.session.port.in.CreateSession.CreateSessionException.InvalidUsernameAndPassword;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -12,11 +13,11 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import static com.fszuberski.TestHelper.generateUserProfileMap;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -38,14 +39,16 @@ class SessionServiceTest {
     }
 
     @Test
-    void return_jwt() {
+    void return_session() {
+        String jwt = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiaWF0IjoxNjIxNzk0NjU1LCJpc3MiOiJmc3p1YmVyc2tpLmNvbSJ9.X8V6QfkyZs4ArqDX1_DRWmFNDHeBrqrD16rArGGwpVs";
         when(getUserProfilePort.getUserProfileAsMap(any())).thenReturn(Optional.of(generateUserProfileMap()));
-        when(jwtService.createAndSignJWT(any()))
-                .thenReturn("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiaWF0IjoxNjIxNzk0NjU1LCJpc3MiOiJmc3p1YmVyc2tpLmNvbSJ9.X8V6QfkyZs4ArqDX1_DRWmFNDHeBrqrD16rArGGwpVs");
-        String jwt = sessionService.createSession("username", "password");
+        when(jwtService.createAndSignJWT(any())).thenReturn(jwt);
+        Session session = sessionService.createSession("username", "password");
 
-        assertNotNull(jwt);
-        assertTrue(jwt.length() > 0);
+        assertNotNull(session);
+        assertEquals(jwt, session.getToken());
+        assertEquals("test", session.getUsername());
+        assertEquals("https://i.pinimg.com/originals/18/ed/33/18ed330d561a580f77dc39c941455f0e.jpg", session.getProfilePictureUrl());
     }
 
     @Test
@@ -93,17 +96,5 @@ class SessionServiceTest {
     void throw_InvalidUsernameAndPassword_given_invalid_password() {
         when(getUserProfilePort.getUserProfileAsMap(any())).thenReturn(Optional.of(generateUserProfileMap()));
         assertThrows(InvalidUsernameAndPassword.class, () -> sessionService.createSession("username", "invalid-password"));
-    }
-
-    private Map<String, Object> generateUserProfileMap() {
-        Map<String, Object> userProfileMap = new HashMap<>();
-        userProfileMap.put("PK", "PROFILE#test");
-        userProfileMap.put("SK", "PROFILE#test");
-        userProfileMap.put("Username", "test");
-        userProfileMap.put("PasswordHash", "$2y$12$kdM0oFlaWGAlQP2uExb3.OGVwyoCGjyCWDsVQG.1mpHlOguQ4J9rq");
-        userProfileMap.put("CreatedAt", "2021-05-21T23:27:05Z");
-        userProfileMap.put("ProfilePictureURL", "https://i.pinimg.com/originals/18/ed/33/18ed330d561a580f77dc39c941455f0e.jpg");
-
-        return userProfileMap;
     }
 }

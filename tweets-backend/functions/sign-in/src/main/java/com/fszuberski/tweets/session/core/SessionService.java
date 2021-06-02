@@ -4,6 +4,7 @@ import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.fszuberski.tweets.jwt.JWTService;
 import com.fszuberski.tweets.persistence.adapter.UserProfilePersistenceAdapter;
 import com.fszuberski.tweets.persistence.port.out.GetUserProfilePort;
+import com.fszuberski.tweets.session.core.domain.Session;
 import com.fszuberski.tweets.session.port.in.CreateSession;
 import com.fszuberski.tweets.session.port.in.CreateSession.CreateSessionException.InvalidUsernameAndPassword;
 
@@ -37,12 +38,11 @@ public class SessionService implements CreateSession {
         this.jwtService = jwtService;
     }
 
-    public String createSession(String username, String password) {
+    public Session createSession(String username, String password) {
         validateInput(username, password);
 
         Optional<Map<String, Object>> userProfileMapOptional = getUserProfilePort.getUserProfileAsMap(username);
         if (userProfileMapOptional.isEmpty()) {
-//            logger.log(String.format("No profile present [username='%s']", authenticationModel.getUsername()));
             throw new InvalidUsernameAndPassword();
         }
 
@@ -59,11 +59,10 @@ public class SessionService implements CreateSession {
                         passwordHash.getBytes(StandardCharsets.UTF_8));
 
         if (!authenticationResult.verified) {
-//            logger.log(String.format("Invalid username and password combination [username:'%s']", authenticationModel.getUsername()));
             throw new InvalidUsernameAndPassword();
         }
 
-        return jwtService.createAndSignJWT(username);
+        return Session.fromMap(userProfileMap, jwtService.createAndSignJWT(username));
     }
 
     private void validateInput(String username, String password) {

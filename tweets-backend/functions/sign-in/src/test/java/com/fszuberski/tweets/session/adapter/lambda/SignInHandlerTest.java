@@ -5,7 +5,7 @@ import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.fszuberski.LambdaTestLogger;
 import com.fszuberski.tweets.rest.domain.ApiException;
 import com.fszuberski.tweets.session.adapter.lambda.model.AuthenticationRequestModel;
-import com.fszuberski.tweets.session.adapter.lambda.model.AuthenticationResponseModel;
+import com.fszuberski.tweets.session.core.domain.Session;
 import com.fszuberski.tweets.session.port.in.CreateSession;
 import org.junit.jupiter.api.*;
 
@@ -38,16 +38,18 @@ class SignInHandlerTest {
     }
 
     @Test
-    void return_response_containing_jwt() {
+    void return_response_containing_session_info() {
         String jwt = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiaWF0IjoxNjIxNzk0NjU1LCJpc3MiOiJmc3p1YmVyc2tpLmNvbSJ9.X8V6QfkyZs4ArqDX1_DRWmFNDHeBrqrD16rArGGwpVs";
         AuthenticationRequestModel authenticationRequestModel = generateAuthenticationModel();
         when(createSession.createSession(authenticationRequestModel.getUsername(), authenticationRequestModel.getPassword()))
-                .thenReturn(jwt);
+                .thenReturn(new Session("username", "https://example.com/image.jpg", jwt));
 
-        AuthenticationResponseModel authenticationResponseModel = signInHandler.handleRequest(authenticationRequestModel, context);
+        Session session = signInHandler.handleRequest(authenticationRequestModel, context);
 
-        assertNotNull(authenticationResponseModel);
-        assertEquals(jwt, authenticationResponseModel.getToken());
+        assertNotNull(session);
+        assertEquals("username", session.getUsername());
+        assertEquals("https://example.com/image.jpg", session.getProfilePictureUrl());
+        assertEquals(jwt, session.getToken());
     }
 
     @Test
