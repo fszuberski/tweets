@@ -7,4 +7,5 @@ include 'shared:rest'
 include "functions"
 include "functions:authorizer"
 include "functions:sign-in"
+include "functions:get-tweets"
 
