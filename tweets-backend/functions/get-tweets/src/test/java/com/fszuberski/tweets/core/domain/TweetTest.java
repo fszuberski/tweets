@@ -32,6 +32,7 @@ class TweetTest {
         assertEquals(tweetAsMap.get("Text"), tweet.getText());
         assertEquals(((String)tweetAsMap.get("CreatedBy")).replace("USER#", ""), tweet.getCreatedBy());
         assertEquals(tweetAsMap.get("CreatedAt"), tweet.getCreatedAt());
+        assertEquals(tweetAsMap.get("ProfilePictureURL"), "https://i.pinimg.com/originals/18/ed/33/18ed330d561a580f77dc39c941455f0e.jpg");
     }
 
     private Map<String, Object> generateTweetAsMap() {
@@ -39,7 +40,8 @@ class TweetTest {
                 "TweetId", "ca64426a-e574-4c80-931a-d4a45dca1f6d",
                 "Text", "test-tweet-1",
                 "CreatedAt", "2021-05-22T14:53:36Z",
-                "CreatedBy", "USER#test-user-1"
+                "CreatedBy", "USER#test-user-1",
+                "ProfilePictureURL", "https://i.pinimg.com/originals/18/ed/33/18ed330d561a580f77dc39c941455f0e.jpg"
         );
     }
 }

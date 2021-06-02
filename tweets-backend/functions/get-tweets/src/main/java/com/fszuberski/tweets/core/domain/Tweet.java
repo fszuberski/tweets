@@ -12,6 +12,7 @@ public class Tweet {
     private final String text;
     private final String createdBy;
     private final String createdAt;
+    private final String profilePictureUrl;
 
     public static Tweet fromMap(Map<String, Object> tweetAsMap) {
         if (tweetAsMap == null || tweetAsMap.isEmpty()) {
@@ -22,6 +23,7 @@ public class Tweet {
                 (String) tweetAsMap.get("TweetId"),
                 (String) tweetAsMap.get("Text"),
                 ((String) tweetAsMap.get("CreatedBy")).replace("USER#", ""),
-                (String) tweetAsMap.get("CreatedAt"));
+                (String) tweetAsMap.get("CreatedAt"),
+                (String) tweetAsMap.get("ProfilePictureURL"));
     }
 }

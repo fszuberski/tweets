@@ -71,14 +71,16 @@ class TweetServiceTest {
                 "TweetId", "ca64426a-e574-4c80-931a-d4a45dca1f6d",
                 "Text", "test-tweet-1",
                 "CreatedAt", "2021-05-22T14:53:36Z",
-                "CreatedBy", "USER#test-user-1"
+                "CreatedBy", "USER#test-user-1",
+                "ProfilePictureURL", "https://i.pinimg.com/originals/18/ed/33/18ed330d561a580f77dc39c941455f0e.jpg"
         );
 
         Map<String, Object> tweet2 = Map.of(
                 "TweetId", "a08b8477-b55d-44dd-a1b8-db3c60a7170a",
                 "Text", "test-tweet-2",
                 "CreatedAt", "2021-05-22T14:46:25Z",
-                "CreatedBy", "USER#test-user-2"
+                "CreatedBy", "USER#test-user-2",
+                "ProfilePictureURL", "https://wow.zamimg.com/uploads/screenshots/normal/991540.jpg"
         );
 
         return List.of(tweet1, tweet2);

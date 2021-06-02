@@ -1,7 +1,6 @@
 package com.fszuberski.tweets.adapter.lambda;
 
 import com.amazonaws.services.lambda.runtime.Context;
-import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.fszuberski.tweets.adapter.lambda.model.QueryData;
 import com.fszuberski.tweets.core.domain.GetTweetsQueryType;
