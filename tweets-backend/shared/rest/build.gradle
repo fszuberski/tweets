@@ -1,0 +1,5 @@
+plugins {
+    id "tweets.backend.java-common-conventions"
+}
+
+version "1.0.SNAPSHOT"

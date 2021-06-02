@@ -1,0 +1,11 @@
+plugins {
+    id "tweets.backend.java-common-conventions"
+}
+
+version "1.0.SNAPSHOT"
+
+dependencies {
+    implementation "io.jsonwebtoken:jjwt-api:$jjwtVersion"
+    runtimeOnly "io.jsonwebtoken:jjwt-impl:$jjwtVersion"
+    runtimeOnly "io.jsonwebtoken:jjwt-gson:$jjwtVersion"
+}

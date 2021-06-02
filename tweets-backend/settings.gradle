@@ -1,2 +1,5 @@
 rootProject.name = "tweets-backend"
 
+include "shared:jwt"
+include 'shared:rest'
+
