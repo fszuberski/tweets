@@ -60,12 +60,17 @@ public class TweetsPersistenceAdapter
             throw new IllegalArgumentException("'text' cannot be null or empty");
         }
 
-        List<String> userIds = getAllUserIds();
+        List<Map<String, Object>> userProfiles = getAllUserProfiles();
         String currentDateTime = DateTimeFormatter.ISO_DATE_TIME.format(LocalDateTime.now());
 
         List<Item> itemsToPersist = new ArrayList<>();
-        for (String createdForUserId : userIds) {
-            Item item = createTweetItem(createdByUserId, createdForUserId.replace("PROFILE#", ""), text, currentDateTime);
+        for (Map<String, Object> userProfileAsMap : userProfiles) {
+            Item item = createTweetItem(
+                    createdByUserId,
+                    ((String) userProfileAsMap.get("SK")).replace("PROFILE#", ""),
+                    (String) userProfileAsMap.get("ProfilePictureURL"),
+                    text,
+                    currentDateTime);
             itemsToPersist.add(item);
         }
 
@@ -83,7 +88,7 @@ public class TweetsPersistenceAdapter
     }
 
     /**
-     * Returns IDs of all existing users.
+     * Returns profiles of all existing users as as map.
      * <p>
      * WARNING:
      * This method uses a full table scan, which is not performant (scans all partitions) and consumes a lot of Read Capacity Units.
@@ -91,7 +96,7 @@ public class TweetsPersistenceAdapter
      * This could be improved by extending the code challenge - keeping track of user followers.
      * The IDs of the followers could be tied to the users profile, which is easily Queried (retrieving a single row from a single partition).
      */
-    private List<String> getAllUserIds() {
+    private List<Map<String, Object>> getAllUserProfiles() {
         Table table = getTable();
         ScanSpec scanSpec = new ScanSpec()
                 .withFilterExpression("begins_with(SK, :v_sk)")
@@ -100,16 +105,15 @@ public class TweetsPersistenceAdapter
 
         ItemCollection<ScanOutcome> items = table.scan(scanSpec);
 
-        List<String> userIds = new ArrayList<>();
+        List<Map<String, Object>> userProfiles = new ArrayList<>();
         for (Item item : items) {
-            String userId = (String) item.asMap().get("SK");
-            userIds.add(userId);
+            userProfiles.add(item.asMap());
         }
 
-        return userIds;
+        return userProfiles;
     }
 
-    private Item createTweetItem(String createdByUserId, String createdForUserId, String text, String currentDateTime) {
+    private Item createTweetItem(String createdByUserId, String createdForUserId, String profilePictureUrl, String text, String currentDateTime) {
         String tweetId = UUID.randomUUID().toString();
         return new Item()
                 .withPrimaryKey(
@@ -118,6 +122,7 @@ public class TweetsPersistenceAdapter
                 .withString("TweetId", tweetId)
                 .withString("Text", text)
                 .withString("CreatedBy", String.format("USER#%s", createdByUserId))
-                .withString("CreatedAt", currentDateTime);
+                .withString("CreatedAt", currentDateTime)
+                .withString("ProfilePictureURL", profilePictureUrl);
     }
 }
