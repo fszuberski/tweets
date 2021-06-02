@@ -1,0 +1,10 @@
+plugins {
+    id "tweets.backend.java-common-conventions"
+}
+
+version "1.0.SNAPSHOT"
+
+dependencies {
+    implementation "com.amazonaws:aws-lambda-java-events:$awsLambdaEventsVersion"
+    implementation "com.amazonaws:aws-java-sdk-dynamodb:$awsSdkDynamodbVersion"
+}
