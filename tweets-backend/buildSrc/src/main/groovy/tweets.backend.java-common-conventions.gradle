@@ -1,0 +1,50 @@
+plugins {
+    id "java"
+    id "com.adarshr.test-logger"
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    mockitoCoreVerion = "1.10.19"
+    mockitoJunitVersion = "3.10.0"
+    junitVersion = "5.7.0"
+    lombokVersion = "1.18.20"
+    bcryptVersion = "0.9.0"
+    jjwtVersion = "0.11.2"
+    awsLambdaCoreVersion = "1.2.1"
+    awsLambdaEventsVersion = "3.8.0"
+    awsSdkDynamodbVersion = "1.11.1024"
+    awsSdkIamVersion = "1.11.1024"
+}
+
+dependencies {
+    compileOnly "org.projectlombok:lombok:$lombokVersion"
+    annotationProcessor "org.projectlombok:lombok:$lombokVersion"
+
+    testImplementation "org.mockito:mockito-core:$mockitoCoreVerion"
+    testImplementation "org.mockito:mockito-junit-jupiter:$mockitoJunitVersion"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
+    testImplementation "org.junit.jupiter:junit-jupiter-params:$junitVersion"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
+}
+
+test {
+    useJUnitPlatform()
+}
+
+testlogger {
+    theme 'mocha'
+}
+
+jar {
+    duplicatesStrategy("exclude")
+
+    from {
+        configurations.runtimeClasspath.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+}
