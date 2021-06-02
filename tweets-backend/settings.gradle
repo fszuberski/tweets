@@ -4,3 +4,6 @@ include "shared:persistence"
 include "shared:jwt"
 include 'shared:rest'
 
+include "functions"
+include "functions:authorizer"
+
