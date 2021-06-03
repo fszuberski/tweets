@@ -35,72 +35,20 @@ const Message = styled.p`
   padding-left: 10px;
 `;
 
-const MessageInput = styled.textarea`
-  width: 100%;
-  min-height: 75px;
-  padding: 15px;
-  border-radius: 5px;
-  border-color: #02333b;
-`;
-
-const SubmitButton = styled.button`
-  display: block;
-  min-width: 130px;
-  padding: 10px;
-  margin-top: 15px;
-  margin-left: auto;
-  margin-bottom: -10px;
-  border-radius: 30px;
-  font-size: 16px;
-  background-color: #1c6a77;
-  color: #fff;
-  cursor: pointer;
-  border: none;
-  transition: ease-in-out 400ms;
-
-
-  &:hover {
-    background-color: #023b43;
-  }
-`;
-
-const GroupRight = styled.div`
-  flex-grow: 1;
-`;
-
-
-const FeedItem = () => {
+const FeedItem = ({ tweet }) => {
+    const { text, createdBy, profilePictureUrl} = tweet;
     return (
         <>
             <Wrapper>
-                <Avatar src="https://source.unsplash.com/random" alt=""/>
+                <Avatar src={ profilePictureUrl } alt=""/>
                 <div>
                     <Username>
-                        John Doe
+                        { createdBy }
                     </Username>
                     <Message>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis consequat gravida sagittis. Etiam
-                        in sapien non augue semper vehicula. Vivamus est mi, facilisis nec leo id, aliquam cursus leo.
-                        Nam porttitor elit sit amet purus convallis suscipit.
+                        { text }
                     </Message>
                 </div>
-            </Wrapper>
-        </>
-    );
-};
-
-export const FeedInput = () => {
-    return (
-        <>
-            <Wrapper>
-                <Avatar src="https://source.unsplash.com/random" alt=""/>
-                <GroupRight>
-                    <Username>
-                        John Doe
-                    </Username>
-                    <MessageInput/>
-                    <SubmitButton>Submit</SubmitButton>
-                </GroupRight>
             </Wrapper>
         </>
     );

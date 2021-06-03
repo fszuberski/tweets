@@ -73,7 +73,13 @@ const initialFormValues = {
 
 class SignIn extends Component {
 
+    state = {
+        isSubmitting: false
+    };
+
     render = () => {
+        const { isSubmitting } = this.state;
+
         return (
             <Formik
                 initialValues={ initialFormValues }
@@ -102,7 +108,9 @@ class SignIn extends Component {
                                                 type="password"
                                                 { ...field }/>
                                         ) }/>
-                                    <Button type="submit" value="Sign in"/>
+                                    <Button type="submit"
+                                            value={ isSubmitting ? "signing in..." : "sign in" }
+                                            disabled={ isSubmitting }/>
                                 </Form>
                             </FormWrapper>
                         </Box>
@@ -113,10 +121,11 @@ class SignIn extends Component {
     };
 
     _onSubmit = (values) => {
+        this.setState({ isSubmitting: true });
         this.props.signIn({
             username: values.username,
             password: values.password
-        });
+        }).then(() => this.setState({ isSubmitting: false }));
     };
 }
 

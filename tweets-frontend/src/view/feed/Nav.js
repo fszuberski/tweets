@@ -3,6 +3,9 @@ import styled from "styled-components";
 import { connect } from "react-redux";
 
 import { signOut } from "../../data/actions/authentication";
+import { getTweets } from "../../data/actions/tweets";
+import { GetTweetsQueryTypesEnum } from "../../core/enums/get_tweets_query_types";
+import { selectFeedType } from "../../data/actions/ui";
 
 const Container = styled.div`
   padding: 0 30px;
@@ -28,6 +31,10 @@ const Tab = styled.div`
     cursor: pointer;
     border-color: #d6e3e4;
   }
+  
+  ${ ({ selected }) => selected && `
+    border-color: #d6e3e4;
+  ` } 
 `;
 export const Button = styled.button`
   min-width: 130px;
@@ -49,27 +56,49 @@ export const Button = styled.button`
 
 class Nav extends Component {
     render = () => {
+        const { selectedFeedType, selectFeedType, getTweets, signOut } = this.props;
         return (
             <Container>
                 <Group>
-                    <Tab>
-                        Page 1
+                    <Tab selected={ selectedFeedType === GetTweetsQueryTypesEnum.CREATED_BY_OTHER_USERS }
+                         onClick={ () => {
+                             return new Promise(resolve => resolve())
+                                 .then(selectFeedType(GetTweetsQueryTypesEnum.CREATED_BY_OTHER_USERS))
+                                 .then(getTweets(GetTweetsQueryTypesEnum.CREATED_BY_OTHER_USERS));
+                         } }>
+                        other users tweets
                     </Tab>
-                    <Tab>
-                        Page 2
+                    <Tab selected={ selectedFeedType === GetTweetsQueryTypesEnum.CREATED_BY_USER }
+                         onClick={ () => {
+                             return new Promise(resolve => resolve())
+                                 .then(selectFeedType(GetTweetsQueryTypesEnum.CREATED_BY_USER))
+                                 .then(getTweets(GetTweetsQueryTypesEnum.CREATED_BY_USER));
+                         } }>
+                        my tweets
                     </Tab>
-                    <Tab>
-                        Page 3
+                    <Tab selected={ selectedFeedType === GetTweetsQueryTypesEnum.ALL }
+                         onClick={ () => {
+                             return new Promise(resolve => resolve())
+                                 .then(selectFeedType(GetTweetsQueryTypesEnum.ALL))
+                                 .then(getTweets(GetTweetsQueryTypesEnum.ALL));
+                         } }>
+                        all tweets
                     </Tab>
                 </Group>
                 <Group>
-                    <Button onClick={ this.props.signOut }>
-                        Sign out
+                    <Button onClick={ signOut }>
+                        sign out
                     </Button>
                 </Group>
             </Container>
         );
-    }
+    };
 }
 
-export default connect(null, { signOut })(Nav);
+const mapStateToProps = (state) => {
+    return {
+        selectedFeedType: state.ui.feedType.selected
+    };
+};
+
+export default connect(mapStateToProps, { selectFeedType, getTweets, signOut })(Nav);

@@ -29,7 +29,7 @@ const configureWebClient = (webClientToConfigure) => {
             }
 
             if (!isNullOrUndefined(token)) {
-                headers[API_AUTHORIZATION_HEADER] = `Bearer ${ token }`;
+                headers[API_AUTHORIZATION_HEADER] = `${ token }`;
             }
 
             return {
