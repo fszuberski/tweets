@@ -61,14 +61,19 @@ public class TweetsPersistenceAdapter
         }
 
         List<Map<String, Object>> userProfiles = getAllUserProfiles();
+        Map<String, Object> createdByUserProfileAsMap = getUserProfile(userProfiles, createdByUserId);
         String currentDateTime = DateTimeFormatter.ISO_DATE_TIME.format(LocalDateTime.now());
+
+        if (createdByUserProfileAsMap.isEmpty()) {
+            throw new RuntimeException("User profile not present");
+        }
 
         List<Item> itemsToPersist = new ArrayList<>();
         for (Map<String, Object> userProfileAsMap : userProfiles) {
             Item item = createTweetItem(
                     createdByUserId,
                     ((String) userProfileAsMap.get("SK")).replace("PROFILE#", ""),
-                    (String) userProfileAsMap.get("ProfilePictureURL"),
+                    (String) createdByUserProfileAsMap.get("ProfilePictureURL"),
                     text,
                     currentDateTime);
             itemsToPersist.add(item);
@@ -111,6 +116,16 @@ public class TweetsPersistenceAdapter
         }
 
         return userProfiles;
+    }
+
+    private Map<String, Object> getUserProfile(List<Map<String, Object>> userProfiles, String userId) {
+        for (Map<String, Object> userProfileAsMap : userProfiles) {
+            if (userProfileAsMap.get("SK").equals(String.format("PROFILE#%s", userId))) {
+                return userProfileAsMap;
+            }
+        }
+
+        return Collections.emptyMap();
     }
 
     private Item createTweetItem(String createdByUserId, String createdForUserId, String profilePictureUrl, String text, String currentDateTime) {
