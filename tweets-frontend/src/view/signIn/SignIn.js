@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import styled from "styled-components";
-import { signIn } from "../../data/actions/authentication";
 import { connect } from "react-redux";
+import styled from "styled-components";
 import { Field, Form, Formik } from "formik";
+
+import { signIn } from "../../data/actions/authentication";
 
 const Container = styled.div`
   display: flex;
@@ -80,7 +81,7 @@ class SignIn extends Component {
                 render={ () => (
                     <Container>
                         <Box>
-                            <Header>Log in</Header>
+                            <Header>Sign in</Header>
                             <FormWrapper>
                                 <Form>
 
@@ -91,8 +92,7 @@ class SignIn extends Component {
                                                 placeholder="username"
                                                 type="text"
                                                 { ...field }/>
-                                        ) }
-                                    />
+                                        ) }/>
 
                                     <Field
                                         name="password"
@@ -101,9 +101,8 @@ class SignIn extends Component {
                                                 placeholder="password"
                                                 type="password"
                                                 { ...field }/>
-                                        ) }
-                                    />
-                                    <Button type="submit" value="Log in"/>
+                                        ) }/>
+                                    <Button type="submit" value="Sign in"/>
                                 </Form>
                             </FormWrapper>
                         </Box>
@@ -119,6 +118,6 @@ class SignIn extends Component {
             password: values.password
         });
     };
-};
+}
 
 export default connect(null, { signIn })(SignIn);

@@ -1,5 +1,8 @@
-import React from "react";
+import React, { Component } from "react";
 import styled from "styled-components";
+import { connect } from "react-redux";
+
+import { signOut } from "../../data/actions/authentication";
 
 const Container = styled.div`
   padding: 0 30px;
@@ -44,27 +47,29 @@ export const Button = styled.button`
   }
 `;
 
-const Nav = () => {
-    return (
-        <Container>
-            <Group>
-                <Tab>
-                    Page 1
-                </Tab>
-                <Tab>
-                    Page 2
-                </Tab>
-                <Tab>
-                    Page 3
-                </Tab>
-            </Group>
-            <Group>
-                <Button>
-                    Log out
-                </Button>
-            </Group>
-        </Container>
-    );
-};
+class Nav extends Component {
+    render = () => {
+        return (
+            <Container>
+                <Group>
+                    <Tab>
+                        Page 1
+                    </Tab>
+                    <Tab>
+                        Page 2
+                    </Tab>
+                    <Tab>
+                        Page 3
+                    </Tab>
+                </Group>
+                <Group>
+                    <Button onClick={ this.props.signOut }>
+                        Sign out
+                    </Button>
+                </Group>
+            </Container>
+        );
+    }
+}
 
-export default Nav;
+export default connect(null, { signOut })(Nav);
