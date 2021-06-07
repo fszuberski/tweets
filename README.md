@@ -6,6 +6,7 @@
 
 ![basic deployment diagram](docs/deployment_diagram.png)
 
+[interactive deployment diagram](https://app.cloudcraft.co/view/37f43704-5ea8-4641-a75b-374b38d3fcec?key=hm1nL_MCvGw6sOW3hMGJXA)
 
 ## tweets-backend
 
